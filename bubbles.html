@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bubbles</title>
+<style>
+body {
+  background-color: #0000ff;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+<canvas id="bubbles" width="500" height="500"></canvas>
+
+<script>
+// Java code to design bubbles and see their movements
+
+class Bubble {
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.velocityX = Math.random() * 2 - 1;
+    this.velocityY = Math.random() * 2 - 1;
+  }
+
+  draw(context) {
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    context.fillStyle = "#ffffff";
+    context.fill();
+  }
+
+  update() {
+    this.x += this.velocityX;
+    this.y += this.velocityY;
+
+    if (this.x < 0) {
+      this.x += 500;
+    }
+
+    if (this.x > 500) {
+      this.x -= 500;
+    }
+
+    if (this.y < 0) {
+      this.y += 500;
+    }
+
+    if (this.y > 500) {
+      this.y -= 500;
+    }
+  }
+}
+
+const canvas = document.getElementById("bubbles");
+const context = canvas.getContext("2d");
+
+const bubbles = [];
+
+for (let i = 0; i < 100; i++) {
+  bubbles.push(new Bubble(
+    Math.random() * 500,
+    Math.random() * 500,
+    Math.random() * 100
+  ));
+}
+
+function animate() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  bubbles.forEach(bubble => {
+    bubble.draw(context);
+    bubble.update();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
